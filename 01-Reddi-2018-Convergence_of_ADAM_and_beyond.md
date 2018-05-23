@@ -84,3 +84,56 @@ $g_t = \nabla f_t(x_t)$
 
 
 ### Generic adaptive methods
+
+<br>
+
+![Generic Adaptive Method Setup](pictures/01-generic_adaptive.png)
+<center> **Generic framework for adaptive algorithms** </center>
+
+<br>
+
+* Additional notes :
+  * $\alpha_t$ step size
+  * $\alpha_t V_t^{-1/2}$ learning rate
+  * Restriction to $V_t = \text{diag}(v_t)$
+  * Decreasing step size required for convergence
+
+<br>
+
+#### SGD
+
+<center>
+![SGD phi and psi](pictures/01-SGD.png)
+**SGD : Specifications in the framework** </center>
+
+<br>
+
+* Aggressive learning rate decay $\alpha / \sqrt(t)$
+
+<br>
+
+#### ADAGRAD
+<center>
+![ADAGRAD phi and psi](pictures/01-ADAGRAD.png)
+**ADAGRAD : Specifications in the framework** </center>
+
+<br>
+
+* Modest learning rate decay $\alpha / \sqrt{\sum_i g_{i,j}^2}$
+
+<br>
+
+#### ADAM
+
+<center>
+![ADAM phi and psi](pictures/01-ADAM.png)
+**ADAM : Specifications in the framework (main formulation)** </center>
+
+<center>
+![ADAM moment formulation](pictures/01-ADAM_moment.png)
+**ADAM : Moment update formulation (alternative formulation)** </center>
+<br>
+
+* ADAGRAD with momentum (exponential moving average)
+
+<br>
