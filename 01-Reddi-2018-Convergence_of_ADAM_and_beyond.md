@@ -136,4 +136,58 @@ $g_t = \nabla f_t(x_t)$
 
 * ADAGRAD with momentum (exponential moving average)
 
+* The momentum term with $beta_1 > 0$ significantly boosts the performance,
+especially in deep learning.
+
+
+
+---
+
+
+
+## III - The non-convergence of ADAM
+
+* **The proof of convergence of ADAM (given in Kingma & Ba, 2015) is wrong.**
+
+<center>
+![ADAM error](pictures/01-ADAM_error.png)
+**This quantity should be semi-definite positive.** <br>
+**It is for SGD and ADAGRAD,
+but not for ADAM.** </center>
 <br>
+
+* The error essentially lies in the fact that the learning rate does not
+always decay.
+
+<br>
+
+<center>
+![ADAM counterexample](pictures/01-ADAM_counterexample.png)
+**Simple counterexample where ADAM converges to the worst solution.** <br>
+**$\mathcal{F} = [-1,1]$, $C>2$, $\beta_1=0$, $\beta_2=1/(1+C^2)$** </center>
+<br>
+
+* **There is an online convex optimization problem where ADAM fails.**
+
+* One could think that adding a small constant $\epsilon$ to $v_t$ would solve
+the problem. Actually, although it helps, **for any $\epsilon > 0$, there is
+an online convex optimization problem where ADAM fails.**
+
+* One could think that using a large $\beta_2$ would solve the problem.
+Actually, although it helps, **for any $\beta_1, beta_2 \in [0,1)$ such that
+$\beta_1 < \sqrt{\beta_2}$, there exists an online convex optimization problem
+where ADAM fails.** (Note that this condition is typically satisfied with
+suggested parameters)
+
+* One could think that this problem is specific to online optimization problems.
+Actually, although stochastic optimization is typically easier, **for any
+$\beta_1, beta_2 \in [0,1)$ such that
+$\beta_1 < \sqrt{\beta_2}$, there exists an online convex optimization problem
+where ADAM fails.**
+
+<br>
+
+* This means one has to use "problem-dependent" update hyperparameters ;
+in high-dimensional settings, this typically means using different
+hyperparameters for each dimension, which defeats the purpose of adaptive
+algorithms.
