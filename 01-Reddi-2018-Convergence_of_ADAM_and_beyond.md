@@ -87,8 +87,11 @@ $g_t = \nabla f_t(x_t)$
 
 <br>
 
+<center>
+
 ![Generic Adaptive Method Setup](pictures/01-generic_adaptive.png)
-<center> **Generic framework for adaptive algorithms** </center>
+
+**Generic framework for adaptive algorithms** </center>
 
 <br>
 
@@ -103,18 +106,23 @@ $g_t = \nabla f_t(x_t)$
 #### SGD
 
 <center>
+
 ![SGD phi and psi](pictures/01-SGD.png)
+
 **SGD : Specifications in the framework** </center>
 
 <br>
 
-* Aggressive learning rate decay $\alpha / \sqrt(t)$
+* Aggressive learning rate decay $\alpha / \sqrt{t}$
 
 <br>
 
 #### ADAGRAD
+
 <center>
+
 ![ADAGRAD phi and psi](pictures/01-ADAGRAD.png)
+
 **ADAGRAD : Specifications in the framework** </center>
 
 <br>
@@ -126,17 +134,21 @@ $g_t = \nabla f_t(x_t)$
 #### ADAM
 
 <center>
+
 ![ADAM phi and psi](pictures/01-ADAM.png)
+
 **ADAM : Specifications in the framework (main formulation)** </center>
 
 <center>
+
 ![ADAM moment formulation](pictures/01-ADAM_moment.png)
+
 **ADAM : Moment update formulation (alternative formulation)** </center>
 <br>
 
 * ADAGRAD with momentum (exponential moving average)
 
-* The momentum term with $beta_1 > 0$ significantly boosts the performance,
+* The momentum term with $\beta_1 > 0$ significantly boosts the performance,
 especially in deep learning.
 
 
@@ -150,7 +162,9 @@ especially in deep learning.
 * **The proof of convergence of ADAM (given in Kingma & Ba, 2015) is wrong.**
 
 <center>
+
 ![ADAM error](pictures/01-ADAM_error.png)
+
 **This quantity should be semi-definite positive.** <br>
 **It is for SGD and ADAGRAD,
 but not for ADAM.** </center>
@@ -162,9 +176,13 @@ always decay.
 <br>
 
 <center>
+
 ![ADAM counterexample](pictures/01-ADAM_counterexample.png)
+
 **Simple counterexample where ADAM converges to the worst solution.** <br>
-**$\mathcal{F} = [-1,1]$, $C>2$, $\beta_1=0$, $\beta_2=1/(1+C^2)$** </center>
+<strong> $\mathcal{F} = [-1,1]$, $\ \ C>2$, $\ \ \beta_1=0$,
+$\ \ \beta_2=1/(1+C^2)$ </strong>
+</center>
 <br>
 
 * **There is an online convex optimization problem where ADAM fails.**
@@ -174,14 +192,15 @@ the problem. Actually, although it helps, **for any $\epsilon > 0$, there is
 an online convex optimization problem where ADAM fails.**
 
 * One could think that using a large $\beta_2$ would solve the problem.
-Actually, although it helps, **for any $\beta_1, beta_2 \in [0,1)$ such that
+Actually, although it helps, **for any $\beta_1, \beta_2 \in [0,1)$ such that
 $\beta_1 < \sqrt{\beta_2}$, there exists an online convex optimization problem
 where ADAM fails.** (Note that this condition is typically satisfied with
 suggested parameters)
 
-* One could think that this problem is specific to online optimization problems.
+* One could think that this problem is specific to online optimization problems,
+and that stochastic optimization problems would not be affected by this issue.
 Actually, although stochastic optimization is typically easier, **for any
-$\beta_1, beta_2 \in [0,1)$ such that
+$\beta_1, \beta_2 \in [0,1)$ such that
 $\beta_1 < \sqrt{\beta_2}$, there exists an online convex optimization problem
 where ADAM fails.**
 
@@ -191,3 +210,29 @@ where ADAM fails.**
 in high-dimensional settings, this typically means using different
 hyperparameters for each dimension, which defeats the purpose of adaptive
 algorithms.
+
+
+
+---
+
+
+
+## IV - A new exponential moving average variant : AMSGRAD
+
+<center>
+
+![AMSGRAD](pictures/01-AMSGRAD.png)
+
+</center>
+
+<br>
+
+* The key difference between AMSGRAD and ADAM is that the former maintains
+the maximum of all previously seen $v_t$, and uses it to normalize the running
+average of the gradient instead of $v_t$ (ADAM).
+
+* In other words, **to ensure a non-increasing learning rate, AMSGRAD uses
+the maximum value of the normalization term, instead of its current value.**
+
+* Proof of convergence is provided, with a data-dependent ensured regret of
+**$O(\sqrt{T})$**
