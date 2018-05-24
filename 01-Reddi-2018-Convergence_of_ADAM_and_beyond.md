@@ -6,6 +6,29 @@
 ---
 
 
+## Abstract
+
+ADAM has become completely dominant in deep learning over the past few years.
+This stochastic optimization algorithm is a variant of SGD, in the same vein
+as ADAGRAD, insofar that it adjusts the learning
+rate on a per-feature basis based on past gradients. However, ADAM specifically
+uses an exponential moving average of past gradients, limiting the reliance
+to the past few gradients.
+
+The authors show that this sort-term memory makes the convergence proof of ADAM
+flawed. Intuitively, informative gradients that happen rarely are killed out
+too fast by the short-term memory. The authors provide a simple counterexample
+where ADAM converges to the worst solution possible.
+
+Although it is of high importance, this result doesn't change the fact that
+ADAM tends to work very well in deep learning, where data distribution
+is heuristically quite smooth. It seems that the variant provided by the authors
+(AMSGRAD) doesn't translate into much better performance.
+
+
+---
+
+
 ## I - Introduction
 
 * **SGD (Stochastic Gradient Descent)** : Update the parameters of a model by
@@ -235,4 +258,5 @@ average of the gradient instead of $v_t$ (ADAM).
 the maximum value of the normalization term, instead of its current value.**
 
 * Proof of convergence is provided, with a data-dependent ensured regret of
-**$O(\sqrt{T})$**
+**$O(\sqrt{T})$**, which can be considerably **better than $O(\sqrt{dT})$ of
+SGD.**
