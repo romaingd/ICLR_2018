@@ -8,6 +8,19 @@
 
 ## Abstract
 
+NMT systems are becoming widely used; however, they are very brittle
+compared to human performance when facing noise. In particular, both
+synthetic and natural noise break NMT and drop their performance.
+
+In particular, random scrambling as in the Cambridge meme sentence
+'Aoccdrnig to a rscheearch...' makes performance fell down to ground level.
+This is especially true for models based on character ordering, such as CNNs
+or char2char models, when they are trained on clean datasets.
+
+The authors investigate the effect of different types of noise on performance,
+and show that even CNNs, when properly trained on various noise types,
+are able to cope reasonably well even with random scrambling.
+
 
 ---
 
@@ -265,3 +278,38 @@ noise**
 ## VII - Analysis
 
 ### VII.1 - Learning multiple kinds of noise in charCNN
+
+* `charCNN` performed well on all types of noise when trained on a mix of noise
+types. This is unexpected, since convolutions should be sensitive to character
+order.
+
+* Suspicion : **different convolutional filters learn to be robust to different
+kinds of noise.**
+
+* In particular, we expect that with random scrambling there are no patterns
+to detect in the data, so **filters resort to close to uniform weights.**
+In contrast, typos and and natural noise introduce a large set of new patterns
+for the CNN to try and learn. This is what we observe in the
+**variances of the weights.**
+
+<br>
+
+<center>
+
+![Weight variances](pictures/02-weight_variances.png)
+**Variances of the weights of charCNN when trained on specific types of noise**
+ </center>
+
+<br>
+
+### VII.2 - Richness of natural noise
+
+* Natural noise is very different from synthetic noise. **None of the models
+that were trained only on synthetic noise were able to perform well on natural
+noise.**
+
+* Good synthetic errors will likely require more explicit phonemic and
+linguistic knowledge.
+
+* Importance of developing natural noise corpora, and understanding how humans
+cope with noise.
