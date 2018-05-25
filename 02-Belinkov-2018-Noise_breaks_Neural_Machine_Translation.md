@@ -192,4 +192,76 @@ scores in both French and German, but actually worsens the result in Czech.
 
 ### VI.1 - Structure invariant representations
 
-* 
+* All three NMT models presented are **sensitive to word structure** (either
+because of convolutional layers, or BPE sub-word units) and **character order**,
+hence very sensitive to character scrambling noise.
+
+* `meanChar` - generate a word representation by averaging character embeddings,
+then proceed with a word-level encoder similar to `charCNN`.
+
+* By construction, **`meanChar` is insensitive to scrambling**, although still
+sensitive to typos and natural noise.
+
+<br>
+
+<center>
+
+![meanChar](pictures/02-meanChar.png)
+ </center>
+
+<br>
+
+
+### VI.2 - Black-box adversarial training
+
+* The model is presented with adversarial examples that are generated without
+direct access to the model. The original training set is replaced with a noisy
+training set, one for each type of noise.
+
+<br>
+
+<center>
+
+![charCNN](pictures/02-charCNN.png)
+ </center>
+
+<br>
+
+* The robust training is sensitive to the kind of noise. Among the scrambling
+methods, more noise helps in training.
+
+* **The three classes of noise are not mutually beneficial.** In particular,
+only models trained on natural noise can reasonably translate natural noise
+at test time.
+
+* This indicates an **important difference between computational models and
+human performance**, since humans are able to decipher random letter orderings
+without any explicit training of this form.
+
+<br>
+
+* **Training on mixed noise datasets makes models robust to the specific types
+of noise they were trained on.** In particular, the model trained on all
+types of noise achieves the best average result, despite not being the best
+on any one kind of noise.
+
+<br>
+
+<center>
+
+![All noises training charCNN](pictures/02-charCNN_all_noises_training.png)
+**Translation of the Cambridge meme by a charCNN model trained on all types of
+noise**
+ </center>
+
+<br>
+
+
+
+---
+
+
+
+## VII - Analysis
+
+### VII.1 - Learning multiple kinds of noise in charCNN
