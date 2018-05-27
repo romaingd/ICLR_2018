@@ -16,7 +16,9 @@ maps throughout the network (to introduce intermediate classifiers even at early
 levels) and dense connectivity (to ensure classifiers do not interfere with each
 other).
 
-This has the interesting property of decoupling depth and feature coarseness.
+This has the interesting property of decoupling depth (horizontal dimension,
+with bypasses coming from dense connectivity) and feature coarseness
+(vertical dimension, leading to intermediate classifiers).
 It performs very well on both problems mentioned.
 
 
