@@ -179,3 +179,31 @@ integer multiples of minimum step $\sigma$.**
 * **Drop memory-consuming techniques** such as momentum, L2 regularization
 (quantization and randomness added amount for empirically sufficient
 regularization), avoid softmax and cross-entropy (use Sum of Squared Error).
+
+
+
+---
+
+
+
+## IV - Experiments
+
+* First build the computation graph for a vanilla network, then
+**insert quantization nodes in forward propagation and override gradients
+in backward propagation** for each layer (in Tensorflow).
+
+
+<br>
+
+
+### IV.1 Results
+
+<br>
+
+<center>
+
+![Results](pictures/04-results.png)
+
+</center>
+
+<br>
