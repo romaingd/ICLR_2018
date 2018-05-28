@@ -1,6 +1,6 @@
 # Training and inference with integers in Deep Neural Networks
 
-## s. Wu, G. Li, F. Chen, L. Shi
+## S. Wu, G. Li, F. Chen, L. Shi
 
 
 
@@ -9,6 +9,16 @@
 
 
 ## Abstract
+
+Smaller or more resource-efficient neural networks have begun receiving
+increasing attention over the past few years, as well as their deployment
+to dedicated hardware.
+
+In this paper, the authors propose the WAGE framework where weights,
+activations, gradients and errors are quantized to low-bitwidth integers.
+They investigate size requirement during training and inference,
+dedicated quantization functions, and show a good trade-off between accuracy
+and energy requirements of their model.
 
 
 
@@ -129,7 +139,7 @@ by MACs.
 <br>
 
 
-### III.1 Shift-based linear mapping and stochastic rounding
+### III.1 - Shift-based linear mapping and stochastic rounding
 
 * Notation : $\sigma(k) = 2^{1-k}, k \in \mathbb{N}_+$
 
@@ -151,7 +161,7 @@ by MACs.
 <br>
 
 
-### III.3 Quantization details
+### III.3 - Quantization details
 
 * Use a **layer-wise shift based scaling factor** to attenuate the amplification
 effect (variances of the weights are scaled by quantization, which would make
@@ -196,7 +206,7 @@ in backward propagation** for each layer (in Tensorflow).
 <br>
 
 
-### IV.1 Results
+### IV.1 - Results
 
 <br>
 
@@ -207,3 +217,70 @@ in backward propagation** for each layer (in Tensorflow).
 </center>
 
 <br>
+
+### IV.2 - Training curves and regularization
+
+<br>
+
+<center>
+
+![Training curves](pictures/04-training_curves.png)
+**Test error rate during training. <br>
+28ff model has no quantization nodes in backpropagation. <br>
+Learning rate is set to 0.1, divided by 10 at epochs 200 and 250.**
+
+</center>
+
+<br>
+
+* When comparing models 28ff and 2888, it seems that the **discretization
+of backpropagation somehow acts as another type of regularization.**
+
+
+<br>
+
+
+### IV.3 - Bitwidth of errors
+
+* Btiwidth of errors is chosen to truncate at best the distribution of errors
+**(regularization)** while retaining the approximate orientations for
+backpropagation.
+
+* 8-bit size is chosen for its reasonable accuracy-size trade-off and its
+matching with various feature encodings and hardware choices.
+
+
+<br>
+
+
+### IV.4 - Bitwidth of gradients
+
+* The inconsistent bitwidth between weight updates $k_G$ and their effects in
+inference $k_W$ provides indispensable buffer space. Otherwise, there might be
+too many weights changing their ternary values in each iteration, making
+training very slow and unstable.
+
+* **Intermediate variables like feature maps often consume much more memory
+than weights**, so 8-bit size is a reasonable trade-off.
+
+
+
+---
+
+
+
+## V - Discussion and future work
+
+* Compared to 16-bit floats, **8-bit integer operations reduce the energy and
+area costs for integrated circuits design by a factor of 5**, but also halve
+the memory accesses costs and memory size requirement during training.
+
+* One could consider going 2-2-8-8, but **ternary $a$ will dramatically slow
+down convergence and hurt accuracy.**
+
+* **Non-linear quantization methods like logarithmic representation might be
+more efficient** since weights and activations in a trained network naturally
+seem to have log-normal distribution.
+
+* Softmax and batch normalization are avoided for computational reasons in WAGE,
+but **a good quantized normalization is of high interest.**
