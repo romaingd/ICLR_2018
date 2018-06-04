@@ -11,6 +11,20 @@ and pixel input </h1>
 
 ## Abstract
 
+This paper studies the ability of neural (Deep Learning) agents to learn
+(compositional) communication protocols with reinforcement learning. The authors
+show that with symbolic inputs (disentangled), the agents are able to
+successfully learn a structured compositional communication protocol.
+
+When it comes to raw pixel inputs, communication can also be achieved,
+but the protocols are very unstable and their compositionality is hampered
+by the agents' ability to separate the objects' factors of variations.
+
+Altogether, this work scales up traditional research on language emergence
+to the powerful deep learning framework, and corroborates the hypothesis that
+structured compositional language is most likely to emerge when agents perceive
+the world as structured.
+
 
 
 ---
@@ -148,7 +162,7 @@ communicative success.**
 
 * **Structured and disentangled input** (bag-of-attributes, all pre-linguistic
   items are represented in terms of binary vectors $o \in \{0,1\}^{573}$).
-  Each object can be seen as a conjonction of properties.
+  Each object can be seen as a conjunction of properties.
 
 * Speaker and listener convert the pre-linguistic representations to dense
 representations $u$ by using a single-layer MLP.
@@ -281,3 +295,103 @@ objects share much (resp. little) of the message structure (e.g. prefixes).
 representations are a sufficient condition for the emergence of structured
 languages (in addition, neural agents tend to favor similar inputs to
 trigger similar outputs).
+
+
+
+---
+
+
+
+## IV - Study 2: Referential game with raw pixel data
+
+* **Raw and entangled input** (raw pixel input
+$o \in [0,255]^{3 \times 124 \times 124}$ to visually process first).
+Combination of shape, color, location and floor color (40 000 combinations).
+
+* Variants of the game :
+  * A - 19 distractors, 3000 objects
+  * B - 1 distractor, 3000 objects
+  * C - 1 distractor, and speaker and listener have different viewpoints
+  (different relative locations perceived), 1850 objects
+  * D - 1 distractor, different viewpoints, and balanced numbers of shapes
+  and color (by downsampling from 8 to 5 colors), 1850 objects
+
+<br>
+
+* Speaker and listener convert the images $o$ to dense representations $u$
+using a 8-layer CNN (not pre-trained).
+
+* Conceptually, we can think of the whole speaker/listener architecture as
+an **encoder/decoder with a discrete bottleneck (the message).**
+
+* Even though no weights were shared, the agents' conceptual spaces get aligned
+at different levels.
+
+
+<br>
+
+
+### IV.1 - Communicative success and emergent protocols
+
+<br>
+
+<center>
+
+![Study2 results](pictures/05-study2_results.png)
+
+</center>
+
+<br>
+
+* Reinforcement learning agents trained end-to-end are able to establish
+a communication protocol in this grounded environment.
+
+* In game A, as captured by topographic similarity, **agents produce messages
+that respect (to some degree) the compositional nature of scenes, indicating
+that similar scenes correspond to similar messages.** For example, the message
+prefix and suffix consistently denote the horizontal and vertical co-ordinate
+respectively.
+
+<br>
+
+* However, **the emerged protocols are very unstable and too grounded in the
+specific game situation.**
+
+* Small modifications of the game setup, having little to no impact on the
+performance, can radically alter the form, semantics and interpretability
+of the communication protocol (few unique messages, only-color-based messages,
+...).
+
+* Without any bias or knowledge, **communication behavior is a function
+of environmental pressures - protocols essentially overfit the particular game
+situation** to the degree that they become specialized *ad hoc* naming
+conventions
+
+
+<br>
+
+
+### IV.2 - Probe models
+
+* Linear probe classifiers on $u$ (result of ConvNet on $t$).
+
+<br>
+
+<center>
+
+![Probes](pictures/05-probes.png)
+
+**Accuracy of probe linear classifiers on $u$ (percentage)**
+
+</center>
+
+<br>
+
+* Object position is almost always encoded in the speaker's visual
+representation, even when it's not a good strategy.
+
+* Shape is rarely taken into account, although it is relevant for communication,
+at least in C and D.
+
+* **Disentanglement seems to be a necessary condition for communication**,
+at least in the case of pixel input.
