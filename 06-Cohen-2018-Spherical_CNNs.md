@@ -10,6 +10,23 @@
 
 ## Abstract
 
+There is now a general agreement that the success of CNNs is related to their
+insensitivity to translations to detect local patterns. There has been much
+work in the past few years to extend this architecture to take advantage of
+larger symmetries in the data.
+
+Here the authors focus on spherical signals, where the detection should be
+insensitive to 3D rotations. However the plane and the sphere are fundamentally
+different (essentially because the group of translations is isomorphic to the
+plane, while the group of rotations is not isomorphic to the sphere),
+and the result of a spherical convolution is a signal on SO(3), not on the
+sphere.
+
+Hence the authors develop the theory of convolution on the sphere and on
+the rotation group SO(3) using the generalized Fourier transform. They
+finally develop a spherical CNN that is able to perform well on various
+spherical signal analysis tasks.
+
 
 
 ---
@@ -142,4 +159,60 @@ implementation.
 transform, the **generalized Fourier Transform**, and a corresponding fast
 algorithm **G-FFT**.
 
-* 
+<br>
+
+* Conceptually, the **GFT is a linear projection of a function onto a set
+of orthogonal basis functions** called *matrix elements of irreducible unitary
+representations*.
+
+* Denoting the manifold by $X$ and the corresponding basis functions by $U^l$,
+we can write the GFT of a function $f : X \rightarrow \mathbb{R}$ as
+
+<strong>
+
+\[
+  \hat{f}^l = \int_X f(x) \bar{U^l(x)} dx
+\]
+
+</strong>
+
+<br>
+
+* The inverse SO(3) Fourier transform is defined (with the Wigner D-functions)
+as :
+
+\[
+  f(R) = \sum_{l=0}^b (2l+1) \sum_{m=-l}^l \sum_{n=-l}^l \hat{f}^l_{mn}
+  D^l_{mn}(R)
+\]
+
+<br>
+
+* The maximum frequency $b$ is known as the **bandwidth**, and is related to the
+resolution of the spatial grid.
+
+
+
+---
+
+
+
+## V - Experiments
+
+### V.1 - Equivariance error
+
+* Check if the equivariance empirically still holds for the discretized versions
+fo the continuous functions used (the theory only holds for continuous functions
+on the sphere or rotation group).
+
+* Although the approximation error grows with the resolution and the number
+of layers, it stays manageable in practice.
+
+
+<br>
+
+<br>
+
+* Additional experiments show that spherical CNN work reasonably well on various
+tasks involving spherical signals, although not specifically designed to solve
+those.
