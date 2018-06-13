@@ -53,7 +53,7 @@ reformulations** such as stemming, tf-idf, term re-weighting.
 
 * Previous work:
   * Paraphrasing to augment the training of a semantic parser
-  * Pivoting through auxiliary languages (in MT)
+  * Pivoting through auxiliary languages, for NMT or paraphrasing
 
 * In contrast, this method a **direct neural paraphrasing system that generates
 full question reformulations** while optimizing directly end-to-end.
@@ -124,5 +124,95 @@ to monolingual paraphrasing (little high quality monolingual training data).
 average F1 score of all variants.
 
 * Pre-trained embeddings for the tokens of query, rewrite and answer are each
-passed through a 1-dimensional CNN and max-pooling, then concatenated
+passed through a 1-dimensional CNN and max-pooling, then all concatenated
 and passed through a feed-forward network which produces the output.
+
+
+
+---
+
+
+
+## IV - Training
+
+### IV.1 - Question answering environment
+
+* BiDAF is trained on the relevant training set for the QA task, then
+becomes a black-box and is not further updated.
+
+* Joint optimization of the environment and the AQA would be possible, but is
+not the purpose of this study.
+
+
+<br>
+
+
+### IV.2 - Policy gradient training of the reformulation model
+
+* Find $a^* = \text{argmax}_a R(a|q_0)$
+
+* The reward $R$ is computed with respect to $q_0$, while the answers are
+provided for **$q \sim \pi_{\theta}(\cdot|q_0)$** with:
+
+<strong>
+
+\[
+  \pi_{\theta}(q = w_1..w_T|q_0) = \prod_{t=1}^T
+  p_{\theta}(w_t|w_1..w_{t-1}, q_0)
+\]
+
+</strong>
+
+<br>
+
+* The goal is to maximize
+**$\mathbb{E}_{q \sim \pi_{\theta}(\cdot|q_0)}[R(f(q))]$**, estimated via
+Monte Carlo sampling
+
+* The reward is optimized directly with respect to the parameters $\theta$
+of the policy using Policy Gradient methods. The gradients are computed using
+REINFORCE (likelihood ratio method), estimated via Monte Carlo sampling:
+
+\[
+  \nabla \mathbb{E}_{q \sim \pi_{\theta}(\cdot|q_0)}[R(f(q))] =
+  \mathbb{E}_{q \sim \pi_{\theta}(\cdot|q_0)}
+  [\nabla_{\theta} \log(\pi_{\theta}(q|q_0))R(f(q))]
+\]
+
+<br>
+
+* Note: There seems to be a problem with the baseline reward mentioned in
+the paper. $B(q_0) = \mathbb{E}_{q \sim \pi_{\theta}(\cdot|q_0)}[R(f(q))]$
+is fixed when $\theta$ and $q_0$ are fixed, hence
+$\mathbb{E}_{q \sim \pi_{\theta}(\cdot|q_0)}[R(f(q)) - B(q_0)] = 0$ by linearity
+of the expectation, which means we're basically optimizing $0$. A more
+reasonable choice of baseline would maybe be $B(q_0) = R(f(q_0))$.
+
+<br>
+
+* Collapse onto a sub-optimal deterministic policy is addressed using
+**entropy regularization**:
+
+\[
+  H[\pi{\theta}(q|q_0)] = - \sum_{t=1}^T \sum_{w_t \in V}
+  p_\theta(w_t|w_{<t},q_0) \log p_\theta(w_t|w_{<t},q_0)
+\]
+
+<br>
+
+<strong>
+
+* Final objective:
+
+\[
+  \mathbb{E}_{q \sim \pi_{\theta}(\cdot|q_0)}[R(f(q)) - B(q_0)]
+  + \lambda H[\pi{\theta}(q|q_0)]
+\]
+
+
+<br>
+
+
+### IV.3 - Answer selection
+
+* 
