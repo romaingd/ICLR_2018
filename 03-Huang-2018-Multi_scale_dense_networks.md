@@ -30,8 +30,8 @@ It performs very well on both problems mentioned.
 ## I - Introduction
 
 * Visual object recognition competitions are usually won by computationally
-intensive CNN models, which solely are able to classify the hard examples of
-the **tail of the data distribution.**
+intensive CNN models, which are the only one able to classify the hard examples
+of the **tail of the data distribution.**
 
 * However, such huge models are wasteful when applied to canonical images.
 
@@ -40,12 +40,12 @@ are easy or computational resources limited, and big networks otherwise.**
 
 <br>
 
-* **Anytime prediction** : the network can be forced to output a prediction
-at any given point in time.
-
-* **Budgeted batch classification** : a fixed computational budget is shared
-across a large set of examples, and can be spent unevenly between easy and
-hard examples.
+* Two main tasks:
+	* **Anytime prediction** : the network can be forced to output a prediction
+	at any given point in time.
+	* **Budgeted batch classification** : a fixed computational budget is shared
+	across a large set of examples, and can be spent unevenly between easy and
+	hard examples.
 
 <br>
 
@@ -53,16 +53,17 @@ hard examples.
 classification is certain (early exits).**
 
 * Problem : CNN doesn't handle well early exits.
-	1. Different kinds of features need to be extracted depending on how many
-		layers are left until the classification
+	1. Different kinds of features need to be extracted from the same input layer
+		depending on how many layers are left until the classification
+		(early vs. late features)
 	2. Features in different layers typically have different scales
 		(finer to coarser)
 
 <br>
 
 * In this paper :
-	* **New architecture Multi-Scale DenseNet (MSDNet)**
-		for resource-efficient image classification
+	* **New architecture - Multi-Scale DenseNet (MSDNet)** for resource-efficient
+	image classification
 	* Problem 1 handled with **dense connectivity**
 	* Problem 2 handled with **multi-scale structure**
 
@@ -89,7 +90,7 @@ classification is certain (early exits).**
 
 * Mostly **exploiting characteristics of ML models** (that do not apply to DL)
 to incorporate feature computation into the training of the model
-(Viola & Jones, etc)
+(e.g. Viola & Jones)
 
 * **Adaptive computation time** (Graves, 2016)
 
@@ -100,11 +101,11 @@ to incorporate feature computation into the training of the model
 ### Related network architectures
 
 * **Neural fabrics** (Sexena & Verbeek, 2016) rapidly construct a low-resolution
-feature map that is amenable to classification, whilst also maintaining feature
-maps of higher resolution for higher accuracy.
+feature map usable for direct classification, whilst also maintaining feature
+maps of higher resolution for higher accuracy in later classifiers.
 
-* **DenseNets** (Huang et al., 2017) bypass features optimized for early
-classifiers in later layers of the network.
+* **DenseNets** (Huang et al., 2017) bypass early-classifiers-optimized features
+to feed later layers of the network.
 
 
 
