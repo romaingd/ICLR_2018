@@ -42,8 +42,8 @@ below.
 <br>
 
 * In contrast, **Neural Machine Translation (NMT) systems are very brittle**
-when faced to such noise, despite their careful training and
-their widespread use.
+and spectacularly fail when faced with such noise, despite their careful
+training and their widespread use.
 
 <br>
 
@@ -59,12 +59,10 @@ their widespread use.
 rely on the hope that the relevant noise will naturally occur frequently
 in the training data.
 
-* It is important to move to **character-based NMT**, or other sub-word units.
-It helps with out-of-vocabulary words, reduces the computational cost of
-large word embedding matrices.
-
-* Character-based NMT models are able to extract stem and morphological
-information to generalize to unseen situations.
+* It is important to move to **character-based (or other sub-word units) NMT**.
+It helps with out-of-vocabulary words and reduces the computational cost of
+large word embedding matrices.Moreover, such models are able to extract stem and
+morphological information to generalize to unseen situations.
 
 * Unfortunately, **training on clean data makes models brittle.** Even small
 amounts of noise lead to substantial drops in performance.
@@ -74,7 +72,7 @@ amounts of noise lead to substantial drops in performance.
 * In this paper :
   * **Investigation of the effects of noise on NMT**
   * Strategies for increasing model robustness:
-    * **Using structure-invariant representation**
+    * **Structure-invariant representations**
     * **Robust training on noisy data** (adversarial training)
   * **Character CNN trained on an ensemble of noise types** robust to all kinds
   of noise
@@ -89,20 +87,20 @@ amounts of noise lead to substantial drops in performance.
 
 * **Adversarial attacks** are becoming common in computer vision, and
 amazingly efficient in changing the output of a model without altering the human
-perception of the input.
+perception of the input. They have begun receiving increasing attention from the
+NLP community.
 
 * Adversarial attacks can be categorized into **white box (access to the model
 parameters) or black box attacks**.
-
-* Adversarial attacks have begun receiving increasing attention from the NLP
-community.
 
 <br>
 
 * **Adversarial training (including adversarial examples in the training data)**
 can improve a model's ability to cope with such examples at test time.
 
-* Robustness is further increased by **adversarial ensemble training.**
+* Robustness is further increased by **adversarial ensemble training**
+(augmenting training data with adversarial examples crafted on other static
+pre-trained models).
 
 
 
@@ -113,7 +111,7 @@ can improve a model's ability to cope with such examples at test time.
 ## III - MT systems
 
 * **End-to-end** models in NMT are getting more and more thoroughly studied,
-especially their ability to learn various linguistic properties. The use of
+especially in their ability to learn various linguistic properties. The use of
 **sub-word units** is an important component of these systems.
 
 * This paper studies 3 different NMT systems with **access to character
@@ -140,7 +138,7 @@ information at different levels** :
 
 #### IV.2.1 - Natural noise
 
-* **Naturally occurring errors** (e.g. typos, misspellings) are harvested from
+* **Naturally occurring errors** (e.g. typos, misspellings) are extracted from
 available corpora of edits to build a look-up table of possible lexical
 replacements.
 
@@ -206,7 +204,7 @@ scores in both French and German, but actually worsens the result in Czech.
 ### VI.1 - Structure invariant representations
 
 * All three NMT models presented are **sensitive to word structure** (either
-because of convolutional layers, or BPE sub-word units) and **character order**,
+because of convolutional layers, or BPE sub-word units) **and character order**,
 hence very sensitive to character scrambling noise.
 
 * `meanChar` - generate a word representation by averaging character embeddings,
@@ -241,11 +239,11 @@ training set, one for each type of noise.
 <br>
 
 * The robust training is sensitive to the kind of noise. Among the scrambling
-methods, more noise helps in training.
+methods, "harder" types of noise helps in training.
 
-* **The three classes of noise are not mutually beneficial.** In particular,
-only models trained on natural noise can reasonably translate natural noise
-at test time.
+* **Training on one class of noise does not improve performance on other
+classes.** In particular, only models trained on natural noise can reasonably
+translate natural noise at test time.
 
 * This indicates an **important difference between computational models and
 human performance**, since humans are able to decipher random letter orderings
@@ -309,7 +307,5 @@ that were trained only on synthetic noise were able to perform well on natural
 noise.**
 
 * Good synthetic errors will likely require more explicit phonemic and
-linguistic knowledge.
-
-* Importance of developing natural noise corpora, and understanding how humans
-cope with noise.
+linguistic knowledge. In addition, this shows the importance of developing
+natural noise corpora, and understanding how humans cope with noise.
