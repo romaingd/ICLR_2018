@@ -10,10 +10,9 @@
 
 ADAM has become completely dominant in deep learning over the past few years.
 This stochastic optimization algorithm is a variant of SGD, in the same vein
-as ADAGRAD, insofar that it adjusts the learning
-rate on a per-feature basis based on past gradients. However, ADAM specifically
-uses an exponential moving average of past gradients, limiting the reliance
-to the past few gradients.
+as ADAGRAD, insofar that it adjusts the learning rate on a per-feature basis
+based on past gradients. However, ADAM specifically uses an exponential moving
+average of past gradients, limiting the reliance to the past few gradients.
 
 The authors show that this sort-term memory makes the convergence proof of ADAM
 flawed. Intuitively, informative gradients that happen rarely are killed out
@@ -32,36 +31,38 @@ is heuristically quite smooth. It seems that the variant provided by the authors
 ## I - Introduction
 
 * **SGD (Stochastic Gradient Descent)** : Update the parameters of a model by
-moving them in the direction of
-the negative gradient of the loss evaluated on a minibatch
+a step in the direction of the negative gradient of the loss evaluated
+on a *minibatch*.
 
-* SGD is the dominant method to train deep networks (DNN) today
-
-
-<br>
-
-
-* **ADAGRAD (Adapative Gradient)** : Variant of SGD that scales coordnates
-of the gradient by square roots of some form of averaging
-
-* SGD variants in ADAGRAD's vein
-have found success in **adjusting the learning rate on a per-feature basis**
+* Due to the large amount of data involved, SGD is the dominant method to
+train deep neural networks (DNN) today.
 
 
 <br>
 
 
-* ADAGRAD's performance falls in nonconvex and dense settings, since the
-entirety of past gradients are used in the updates.
+* **ADAGRAD (Adapative Gradient)** : Variant of SGD that scales coordinates
+of the gradient by square roots of some form of *averaging of past values*.
 
-* **ADAM (Adaptive Moment estimation)** : ADAGRAD idea where the rapid learning
-rate decay is mitigated using the exponential moving average of squared past
-gradients (limit reliance to only the past few gradients)
+* SGD variants in ADAGRAD's vein are popular and successful because they
+**adjust the learning rate on a per-feature basis**.
+
+
+<br>
+
+
+* ADAGRAD's performance falls in non-convex and dense settings: using *all* past
+gradients makes the learning rate decay too quick, and early updates lose
+too much impact.
+
+* **ADAM (Adaptive Moment estimation)** : ADAGRAD idea + mitigate the rapid
+learning rate decay using an exponential moving average of squared past
+gradients (limit reliance to only the *past few gradients*)
 
 * This is also the idea of RMSPROP, ADADELTA, NADAM, ...
 
-* Empirically, **ADAM fails to converge when important information happens rarely, because it is
-forgotten too fast**
+* Empirically, **ADAM fails to converge when important information happens
+rarely, because it is forgotten too fast**
 ("*when some minibatches provide large
 gradients but only quite rarely; although they are quite informative, their
 influence dies out rather quickly due to exponential moving average*")
@@ -92,7 +93,7 @@ influence dies out rather quickly due to exponential moving average*")
 * At each time step $t$ :
   * Pick a point $x_t \in \mathcal{F}$
     **(parameters of the model, e.g. weights)**
-  * Access a loss function $f_t$
+  * Gain access to a loss function $f_t$
     **(loss of the model on the next minibatch)**
   * Incur loss $f_t(x_t)$
 
@@ -108,7 +109,7 @@ $g_t = \nabla f_t(x_t)$
 
 ### Generic adaptive methods
 
-<br>
+<br>Access
 
 <center>
 
@@ -122,7 +123,7 @@ $g_t = \nabla f_t(x_t)$
   * $\alpha_t$ step size
   * $\alpha_t V_t^{-1/2}$ learning rate
   * Restriction to $V_t = \text{diag}(v_t)$
-  * Decreasing step size required for convergence
+  * Decreasing step size is required for convergence
 
 <br>
 
@@ -132,7 +133,7 @@ $g_t = \nabla f_t(x_t)$
 
 ![SGD phi and psi](pictures/01-SGD.png)
 
-**SGD : Specifications in the framework** </center>
+**SGD - Specifications in the framework** </center>
 
 <br>
 
@@ -146,7 +147,7 @@ $g_t = \nabla f_t(x_t)$
 
 ![ADAGRAD phi and psi](pictures/01-ADAGRAD.png)
 
-**ADAGRAD : Specifications in the framework** </center>
+**ADAGRAD - Specifications in the framework** </center>
 
 <br>
 
@@ -160,13 +161,13 @@ $g_t = \nabla f_t(x_t)$
 
 ![ADAM phi and psi](pictures/01-ADAM.png)
 
-**ADAM : Specifications in the framework (main formulation)** </center>
+**ADAM - Specifications in the framework (main formulation)** </center>
 
 <center>
 
 ![ADAM moment formulation](pictures/01-ADAM_moment.png)
 
-**ADAM : Moment update formulation (alternative formulation)** </center>
+**ADAM - Moment update formulation (alternative formulation)** </center>
 <br>
 
 * ADAGRAD with momentum (exponential moving average)
@@ -223,9 +224,8 @@ suggested parameters)
 * One could think that this problem is specific to online optimization problems,
 and that stochastic optimization problems would not be affected by this issue.
 Actually, although stochastic optimization is typically easier, **for any
-$\beta_1, \beta_2 \in [0,1)$ such that
-$\beta_1 < \sqrt{\beta_2}$, there exists an online convex optimization problem
-where ADAM fails.**
+$\beta_1, \beta_2 \in [0,1)$ such that $\beta_1 < \sqrt{\beta_2}$,
+there exists an online convex optimization problem where ADAM fails.**
 
 <br>
 
