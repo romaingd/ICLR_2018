@@ -100,7 +100,9 @@ to incorporate feature computation into the training of the model
 
 ### Related network architectures
 
-* **Neural fabrics** (Sexena & Verbeek, 2016) rapidly construct a low-resolution
+* **Neural fabrics** (Sexena & Verbeek, 2016) maintain available all paths in
+the architecture grid (scales x layers) to learn the best architecture.
+They thus rapidly construct a low-resolution
 feature map usable for direct classification, whilst also maintaining feature
 maps of higher resolution for higher accuracy in later classifiers.
 
@@ -119,14 +121,14 @@ to feed later layers of the network.
 
 * **Finite computational budget $B>0$ for each test example $x$**.
 
-* Assuming **$B ~ P(x,B)$**, the goal of the anytime learner is to **minimize
-$L(f) = \mathbb{E}[L(f(x),B)]_{P(x,B)}$.**
+* Assuming **$B \sim P(x, \cdot)$**, the goal of the anytime learner is to
+**minimize $L(f) = \mathbb{E}[L(f(x),B)]_{P(x,B)}$.**
 
 
 <br>
 
 
-## Budgeted batch classification
+### Budgeted batch classification
 
 * Classify a set $D_{test}$ of examples with a fixed budget $B$.
 
@@ -142,13 +144,13 @@ $L(f) = \mathbb{E}[L(f(x),B)]_{P(x,B)}$.**
 
 * Straightforward solution : train multiple networks of increasing size,
 evaluate them sequentially at test time. Far from optimal
-(results never reused).
+(early results and features are never reused).
 
 * Alternative solution : **build a deep network with a cascade of classifiers**
 operating on the features of the internal layers.
 
-* However, naive early-exit classifiers to a standard DNN hurts performance.
-Two problems are exposed below.
+* However, naively adding early-exit classifiers to a standard DNN
+hurts performance badly. Two problems are exposed below.
 
 <br>
 
@@ -176,7 +178,7 @@ Two problems are exposed below.
 
 * Early layers lack coarse-level features, early classifiers won't perform well
 
-* **Solution** : **multi-scale features maps, all the classifiers only use
+* **Solution** : **multi-scale features maps, all classifiers only use
 coarse-level features.** Horizontal connections preserve and progress
 high-resolution information; vertical connections produce coarse features for
 classification.
@@ -234,8 +236,8 @@ designed to ensure the budget constraint is verified.
 
 <br>
 
-* **Scale reduction** : inefficient to maintain all the finer scales until
-the last layer.
+* **Scale reduction** : it would be inefficient to maintain all the finer
+scales until the last layer.
 
 * **Lazy evaluation** : group computation in diagonal blocks such that we only
 propagate the example along paths that are required for the next classifier.
@@ -263,7 +265,7 @@ and various ensembles of fixed or varying size.**
 <br>
 
 * In the extremely-low-budget regime, ensembles have an advantage since the
-smaller network is directly and independently optimized for this task.
+smallest network is directly and independently optimized for this task.
 
 
 <br>
@@ -292,7 +294,7 @@ budget that is consumed, which is not possible with individual networks.
 ### V.3 - More computationally efficient DenseNets
 
 * DenseNets tend to apply more filters on the high-resolution feature maps,
-compared to standard CNNs like ResNets. this helps reducing the number of
+compared to standard CNNs like ResNets. This helps reducing the number of
 parameters, but greatly increases the computational cost.
 
 * **Keeping the number of output channels (growth rate) the same at all scales
