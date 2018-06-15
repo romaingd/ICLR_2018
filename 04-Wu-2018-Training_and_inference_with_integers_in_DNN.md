@@ -33,11 +33,11 @@ devices (CPU, GPU, TPU, ...) during training** to achieve a good performance
 in reasonable time.
 
 * DNN also typically consist in millions of parameters (138M for VGG-16),
-and are therefore **very heavy to store**, notwithstanding the increased
-overfitting opportunities.
+and are therefore **very heavy to store**, with increased overfitting risk.
 
 * Therefore much attention has been brought to **reducing the size of the
-networks, as well as deploying dedicated hardware.**
+networks, as well as deploying them on dedicated hardware** for commercial
+solutions.
 
 <br>
 
@@ -45,7 +45,7 @@ networks, as well as deploying dedicated hardware.**
 papers hence study the compression of standard networks trained with full
 precision.
 
-* In this paper :
+* In this paper:
   * **How to process both training and inference of DNNs with low-bitwidth
     integers**
     * How to quantize all operands and operations
@@ -82,13 +82,13 @@ of convolutions.
 
 #### Gradient computation and accumulation
 
-* DoReFa-Net : quantized gradients to low-bitwidth floats with discrete states
+* DoReFa-Net : gradients quantized to low-bitwidth floats with discrete states
 in the backward pass.
 
 * TernGrad : ternary-valued gradients to reduce the overhead of gradient
 synchronization in distributed training.
 
-* However both works use float32 weights during training, and ignore the
+* However both studies use float32 weights during training, and ignore the
 quantization of batch normalization.
 
 
@@ -123,10 +123,12 @@ errors $e$ and gradients $g$ during backpropagation.**
 * Find a **good quantization function $Q_W(\cdot)$ that maps higher precision
 weights to their $k_W$-bit reflections.**
 
-* Although weights are accumulated with high precision, the deployment of
-reflections in dedicated hardware is much more efficient after training.
+* Although weights are accumulated with high precision during training,
+the deployment of reflections in dedicated hardware is much more efficient
+for inference.
 
-* Quantize activations to compensate for the increased bitwidth caused by MACs.
+* Quantize activations to compensate for the increased bitwidth caused by MACs
+(multiplications specifically).
 
 <br>
 
@@ -187,7 +189,7 @@ integer multiples of minimum step $\sigma$.**
 <br>
 
 * **Drop memory-consuming techniques** such as momentum, L2 regularization
-(quantization and randomness added amount for empirically sufficient
+(quantization and added randomness amount for empirically sufficient
 regularization), avoid softmax and cross-entropy (use Sum of Squared Error).
 
 
