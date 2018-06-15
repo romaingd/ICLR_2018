@@ -33,7 +33,7 @@ the world as structured.
 
 ## I - Introduction
 
-* Study of emergent communication :
+* Study of emergent communication:
   * **language evolution** - development of communication protocols from scratch
   * **language acquisition** - learning of an existing language
 
@@ -52,15 +52,17 @@ another a target object in the agent's environment.
 
 * **Compositionality** : smaller building blocks are used to generate
 unbounded numbers of more complex forms, with the meaning of the larger being
-determined by the meanings of its parts and how they are put together
-(allows virtually infinite expression)
+determined by the meanings of its parts and how they are put together.
+
+* Compositionality allows virtually infinite expression, and is one of the most
+important properties of natural language.
 
 * In this paper:
   * Two referential communication games to study **how much structure is
   provided by the environment** (same setup, learning procedure, architecture)
   * Study 1 - symbolic input, disentangled representations, dimensions encode
   individual properties
-  * Study 2 - raw perceptual input, entangled input, no pro-coded semantics
+  * Study 2 - raw perceptual input, entangled input, no pre-coded semantics
   * **Learning agents can successfully communicate in both cases, but struggle
   to produce structured messages when presented with entangled input data.**
 
@@ -82,7 +84,7 @@ environment in order to **maximize a shared reward.**
 ### II.1 - Game and terminology
 
 * A **speaker** is presented with a **target object $t$** (among the set of
-  **pre-linguistic items**, e.g. pixel-based images). Using an **alphabet**
+**pre-linguistic items**, e.g. pixel-based images). Using an **alphabet**
 (primitive discrete **symbols**, e.g. ('22','10','0', '2')), the speaker
 constructs a **message** describing that object (e.g. '22 0 2').
 
@@ -113,7 +115,7 @@ a set of candidate objects, by making use of the speaker's message.**
 ### II.2 - Agents
 
 * The speaker :
-  * **Encodes $t$** into a dense representation $u$ using an encoder (depends
+  * **Encodes $t$** into a dense representation $u$ using an encoder (dependent
     on the pre-linguistic set)
   * **Generates a message $m$** based on $u$ and the alphabet (symbols of the
     alphabet have no a priori meaning), using a **decoder** (here single-layer
@@ -225,7 +227,7 @@ and the overall game becomes more difficult.
   * In the uniform case, object similarity is a predictor of object
   confusability
   * In the context-dependent case, object confusability is rather driven by
-  co-occurence (to better distinguish co-occurring objects)
+  (non-)co-occurence (to better distinguish co-occurring objects)
 
 <br>
 
@@ -252,7 +254,7 @@ training data :
   * **test** - same data distribution as training data (but never seen)
   * **unigram chimeras** - property-based distribution inferred from the
   training data
-  * **uniform chimeras** - uniformly sampling properties
+  * **uniform chimeras** - data with uniformly sampled properties
 
 <br>
 
@@ -265,8 +267,8 @@ training data :
 <br>
 
 * **Productivity** - speakers are able to concoct novel messages on-the-fly
-(see `lexicon_size` for the percentage of novel messages), and listeners to
-comprehend them.
+(see `lexicon_size` for the percentage of novel messages), and listeners prove
+able to comprehend them.
 
 <br>
 
@@ -381,7 +383,7 @@ conventions
 
 ![Probes](pictures/05-probes.png)
 
-**Accuracy of probe linear classifiers on $u$ (percentage)**
+**Accuracy of linear classifier probes on $u$ (percentage)**
 
 </center>
 
