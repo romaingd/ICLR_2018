@@ -134,3 +134,17 @@ large enough penalty $\gamma$), $\phi_\gamma(\theta ; z_0) =
 \sup_z \{l(\theta ; z) - \gamma c(z,z_0)\}$ is easy to compute. That is, **with
 essentially no additional computational cost, we can train on the worst possible
 perturbation instead of the raw training data**.
+
+* The Wasserstein metric is a natural way to compare two probability
+distributions, especially when one is derived from the other by small,
+non-uniform perturbations. Viewing a probability distribution as a unit
+amount of 'dirt' piled on $\mathcal{Z}$, the Wasserstein distance is
+intuitively the minimal cost of turning one pile into the other
+(amount moved times the distance it is moved). The authors show that using a
+Wasserstein ball yields the equivalence between $(2. a)$ and $(2. b)$.
+
+
+<br>
+
+
+### II.1 - Optimizing the robust loss by Stochastic Gradient Descent
