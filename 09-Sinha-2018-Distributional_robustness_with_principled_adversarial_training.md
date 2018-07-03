@@ -108,4 +108,29 @@ yield models with unclear convergence and adversarial coverage.
 
 #### Distributionally robust optimization
 
-*
+* The choice of $\mathcal{P}$ yields a **trade-off between richness of the
+uncertainty and tractability of the computation**.
+
+* Previous approaches:
+  * parametric classes
+  * $f$-divergence balls (fixed support)
+  * Wasserstein balls (varying support) (studied in tractable but limited cases)
+
+
+
+---
+
+
+
+## II - Proposed approach
+
+* Main idea: assume $l(\theta; \cdot)$ is *smooth*, i.e. $\nabla_z
+l(\theta;\cdot)$ is $L$-Lipschitz for some $L$. Then a Taylor expansion shows
+that **$(l(\theta;\cdot) - \gamma c(\cdot, z_0))$ is $(\gamma - L)$-strongly
+concave**.
+
+* Hence, for moderate enough robustness $\rho$ requirements (i.e. by duality
+large enough penalty $\gamma$), $\phi_\gamma(\theta ; z_0) =
+\sup_z \{l(\theta ; z) - \gamma c(z,z_0)\}$ is easy to compute. That is, **with
+essentially no additional computational cost, we can train on the worst possible
+perturbation instead of the raw training data**.
