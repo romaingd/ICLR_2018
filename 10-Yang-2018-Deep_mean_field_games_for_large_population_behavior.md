@@ -45,7 +45,38 @@ state space, and the individual reward depends on the population distribution
 and aggregate actions.
 
 * MFG are characterized by stochastic differential equations, and can be used
-to model a wide range of phenomena (Mexican waves [Ola], where to put one's
+to model a wide range of phenomena (Mexican waves [Ola], where people put their
 towel on the beach, etc).
 
 <br>
+
+* The problem is linked to **Markov Decision Processes (MDP)** and
+**Reinforcement Learning (RL)** by framing it as **MFG model inference via
+MDP policy optimization**. In other words, the MFG model is used to describe
+the natural behavior of the population and is fitted by solving an associated
+MDP, without imposing any control on the system.
+
+* This is in some way the best of both worlds:
+  * The MFG framework allows the tractable adaptation of inverse reinforcement
+  learning (IRL) methods, to learn complex reward functions able to explain the
+  behavior of arbitrarily large populations.
+  * RL inspires a data-driven method to solve an MFG model of a real-world
+  system for temporal prediction.
+
+<br>
+
+* In this paper:
+  * **Data-driven fitting of an MFG model along with its reward function**
+  * Reduction of a discrete time graph-state MFG (derived from the general case)
+  to an MDP, which means that solving the MDP (policy and reward) is equivalent
+  to inference of the MFG.
+
+
+
+---
+
+
+
+## II - Related work
+
+*
