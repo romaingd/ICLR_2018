@@ -18,3 +18,34 @@ large population behavior</h1>
 
 
 ## I - Introduction
+
+* There is significant interest for modeling macroscopic population behavior,
+first of all in physics, but also in social contexts, such as social media.
+One of the major intuitions in such situations is that individual behavior
+may be optimal with respect to some objective, yielding population dynamics.
+It is also very likely that the current population state, when observables,
+influences the individual actions (e.g. discussing already popular topics).
+
+* This motivates the development of a **model of population behavior learnable
+from real data** and satisfying some criteria:
+  1. The model captures the **dependency between population distribution and
+  their actions**.
+  2. **Individual behaviors are modeled as optimal for some implicit reward**.
+  3. The model enables **prediction of future population distribution**, given
+  measurements at previous times.
+
+<br>
+
+* Those criteria are addressed using a **mean field game (MFG)** approach.
+Stemming from game theory and economics, MFG consider the limit of $N$-player
+games when $N$ tends to infinity.
+
+* In MFG, the agent population is represented via their distribution over a
+state space, and the individual reward depends on the population distribution
+and aggregate actions.
+
+* MFG are characterized by stochastic differential equations, and can be used
+to model a wide range of phenomena (Mexican waves [Ola], where to put one's
+towel on the beach, etc).
+
+<br>
