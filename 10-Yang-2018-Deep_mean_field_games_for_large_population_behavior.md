@@ -180,3 +180,38 @@ using the following equations (respectively **Hamilton-Jacobi-Bellman** and
   V_j)$ the average reward received by agents at topic $i$.
 
 <br>
+
+* Define $\mathcal{P}(P,i,q) \in \mathbb{S}(\mathcal{G})$ the matrix equal to
+$P$, except with the $i$-th row replaced by $q$. $P$ is such that its rows form
+a Nash equilibrium set of actions, i.e. $P$ is a **Nash maximizer**:
+
+<strong>
+
+\[
+  \forall i, \forall q, \ \ e_i(\pi, P, V) \geq e_i(\pi, \mathcal{P}(P,i,q), V)
+\]
+
+</strong>
+<br>
+
+* A **solution of the MFG** is a sequence of pairs $\{(\pi^n, V^n)\}$
+satisfying the Fokker-Planck equation and the optimality criteria:
+
+<strong>
+
+\[
+  V_i^n = \max_{q \in \mathbb{S}_i(\mathcal{G})}
+    \{\ \sum_{j=1}^d q_j \
+      [\ r_{ij}(\pi^n, \mathcal{P}(P^n, i, q)) + V_j^{n+1}\ ]\  \}
+\]
+
+</strong>
+
+
+
+---
+
+
+## IV - Inference of MFG via MDP optimization
+
+* 
