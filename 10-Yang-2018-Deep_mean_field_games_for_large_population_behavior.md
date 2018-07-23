@@ -23,7 +23,7 @@ large population behavior</h1>
 first of all in physics, but also in social contexts, such as social media.
 One of the major intuitions in such situations is that individual behavior
 may be optimal with respect to some objective, yielding population dynamics.
-It is also very likely that the current population state, when observables,
+It is also very likely that the current population state, when observable,
 influences the individual actions (e.g. discussing already popular topics).
 
 * This motivates the development of a **model of population behavior learnable
@@ -57,9 +57,9 @@ the natural behavior of the population and is fitted by solving an associated
 MDP, without imposing any control on the system.
 
 * This is in some way the best of both worlds:
-  * The MFG framework allows the tractable adaptation of inverse reinforcement
-  learning (IRL) methods, to learn complex reward functions able to explain the
-  behavior of arbitrarily large populations.
+  * The MFG framework allows the tractable adaptation of **inverse reinforcement
+  learning (IRL)** methods, to learn complex reward functions able to explain
+  the behavior of arbitrarily large populations.
   * RL inspires a data-driven method to solve an MFG model of a real-world
   system for temporal prediction.
 
@@ -79,4 +79,33 @@ MDP, without imposing any control on the system.
 
 ## II - Related work
 
-*
+* Prior work made strong assumptions on the cost function in order to attain
+analytical solutions, hence the importance of **learning the cost function
+directly from data**.
+
+* Earlier work imposed Gaussian assumptions on the distributions, or relied
+on numerical finite-difference methods for solving continuous MFG, limiting the
+applications to **toy models** given the inherent computational challenges.
+
+* In RL, multi-agent generalizations of the MDP are not easily used to represent
+the interaction of thousands of agents, the trajectory of each being optimal,
+hence the importance of the **macroscopic point of view** of MFG.
+
+* In unknown MDP estimation and IRL, he **maximum entropy IRL framework**
+has proved successful at learning reward functions from expert demonstrations.
+It can be augmented by the use of deep neural networks to learn complex
+reward functions.
+
+* The presented method is an extension of **Guided Cost Learning** (Finn et al.,
+  2016) to the problem of **learning a reward function under which a large
+population's behavior is optimal**.
+
+
+
+---
+
+
+
+## III - Mean Field Games
+
+### III.1 - Mean Field Games on graphs
