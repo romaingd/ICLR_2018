@@ -214,4 +214,118 @@ satisfying the Fokker-Planck equation and the optimality criteria:
 
 ## IV - Inference of MFG via MDP optimization
 
-* 
+* Reduction of the discrete time MFG (over a complete graph)
+to a **finite-horizon deterministic MDP**:
+  * States - $\pi^n$
+  * Actions - $P^n$
+  * Reward - $R(\pi^n, P^n) =
+                \sum_{i} \pi_i^n \sum_j P_{ij}^n r_{ij}(\pi^n, P_i^n)$
+  * Finite-horizon state transition - $\pi_j^{n+1} = \sum_{i=1}^d P_{ij}^n
+  \pi_i^n$
+
+<br>
+
+* This reduction (the MDP state trajectory under an optimal policy coincides
+with the forward evolution of the MFG) means that **optimizing an MDP is
+equivalent to solving an MFG that describes population behavior**. This enables
+the use of inverse RL methods to learn an MFG along with its reward function.
+
+
+<br>
+
+
+### IV.1 - Reinforcement learning solution for MFG
+
+* Sample-based IRL method based on the **maximum entropy** framework. Hypothesis
+that trajectories are sampled from the maximum entropy distribution, where
+$R_W(\tau) = \sum_n R_W(\pi^n, P^n)$:
+
+<strong>
+
+\[
+  p(\tau) = \frac{1}{Z} \exp(R_W(\tau))
+\]
+
+</strong>
+
+<br>
+
+* The partition function $Z$ can be estimated via importance sampling.
+
+* Building on Guided Cost Learning, the **reward function is approximated by
+a neural network**, and learned via **likelihood maximization** (SGD on the
+negative log likelihood).
+
+* The **policy is learned using a simple actor-critic algorithm**, performing
+gradient ascent on the policy's expected start value to find successively better
+policies.
+
+<br>
+
+![Algorithms](pictures/10-algorithms.png)
+
+<br>
+
+
+
+---
+
+
+
+## V - Experiments
+
+* Twitter population of 406 users, $d=15$ topics and $N=16$ time steps each day
+for 27 days. Topics are indexed by order of decreasing popularity.
+
+* Comparison with two baselines (Jensen-Shannon Divergence, or JSD, as metric):
+  * **Vector auto-regression (VAR)** - order 18, trained on 21 trajectories
+  * **Recurrent Neural Network (RNN)** - single FCL, ReLU
+
+
+<br>
+
+
+### V.1 - Interpretation of reward function
+
+* Estimated reward functions densities are quite close, in terms of JSD, to
+the observed ones, both in training and in testing. Although this does not mean
+correspondence between the actual functions (the densities of two really
+different functions can be quite close), it is a good indication of fit.
+
+
+<br>
+
+
+### V.2 - Trajectory prediction
+
+* The learned policy was used to generate complete trajectories, given initial
+distributions of each day.
+
+* Note that learning the **MFG model only requires the initial population
+distribution of each day**; on the opposite, VAR and RNN both use
+the distributions over all hours of each day.
+
+* Generated trajectories are presented below. The size of the data set, and
+the fact that RNN mainly learn state transitions without accounting for actions
+could explain the lower performance of the RNN.
+
+<br>
+
+![Generated trajectories](pictures/10-trajectories.png)
+
+<br>
+
+
+
+---
+
+
+
+## VI - Conclusion
+
+* Extensions:
+  * More flexible neural networks for more complex applications
+  * Synthesis of MFG with models of social networks at the level of individual
+  connections
+  * Mean field models of interdependent systems that may display complex
+  interactions via coupling through global states and reward functions
