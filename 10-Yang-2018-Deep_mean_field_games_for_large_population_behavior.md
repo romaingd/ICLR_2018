@@ -11,6 +11,21 @@ large population behavior</h1>
 
 ## Abstract
 
+The authors propose a method that links Mean Field Games and Markov Decision
+Processes. Stemming from economics and game theory, Mean Field Games were
+designed to model large population behavior under the assumption that individual
+agents take actions to minimize some (implicit) reward, dependent on their own
+current status and the current population distribution. On the other side,
+Markov Decision Processes are one of the main tools used in reinforcement
+learning, for example to learn an optimal policy from data.
+
+More specifically, it is shown that a discrete time MFG can be solved,
+using inverse reinforcement learning, by solving a deterministic MDP, whose
+state trajectory under an optimal policy coincides with the forward evolution
+of the MFG. This enables, in particular, the learning of the MFG in a
+data-driven way, guided by expert or real-world demonstrations
+(whereas until then, MFG were more or less limited to artificial toy models).
+
 
 
 ---
@@ -253,7 +268,7 @@ $R_W(\tau) = \sum_n R_W(\pi^n, P^n)$:
 * The partition function $Z$ can be estimated via importance sampling.
 
 * Building on Guided Cost Learning, the **reward function is approximated by
-a neural network**, and learned via **likelihood maximization** (SGD on the
+a neural network, and learned via likelihood maximization** (SGD on the
 negative log likelihood).
 
 * The **policy is learned using a simple actor-critic algorithm**, performing
@@ -261,9 +276,11 @@ gradient ascent on the policy's expected start value to find successively better
 policies.
 
 <br>
+<center>
 
 ![Algorithms](pictures/10-algorithms.png)
 
+</center>
 <br>
 
 
@@ -310,9 +327,11 @@ the fact that RNN mainly learn state transitions without accounting for actions
 could explain the lower performance of the RNN.
 
 <br>
+<center>
 
 ![Generated trajectories](pictures/10-trajectories.png)
 
+</center>
 <br>
 
 
