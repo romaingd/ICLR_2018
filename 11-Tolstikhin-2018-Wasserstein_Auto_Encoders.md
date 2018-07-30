@@ -124,10 +124,54 @@ $c(x,y) = d^p(x,y)$ for some $p \geq 1$; in this case, we note $W_p =
 
 ### II.3 - Application to generative models: Wasserstein Auto-Encoders
 
-* Modern generative models like VAEs and GANs are trying to minimize certain
-discrepancy measures between the data distribution $P_X$ and the model $P_G$.
+* Modern generative models like VAEs and GANs are trying to **minimize certain
+discrepancy measures between the data distribution $P_X$ and the model $P_G$**.
 However, most standard divergences are intractable, especially when $P_X$ is
-unknown and $P_G$ parametrized by a deep neural network. Several tricks have
-been developed to address this issue.
+unknown and $P_G$ parametrized by a deep neural network.
 
-*
+* Several tricks have been developed to address this issue (VAEs use the
+theoretical framework provided by the *variational lower bound* when minimizing
+the KL-divergence $D_{KL}; $f$-GANs leverage *adversarial training* to minimize
+$f$-divergences; OT cost is another option).
+
+<br>
+
+* Here a **latent variable model $P_G$** is defined by first sampling a code $Z$
+from a prior $P_Z$, then mapping $Z$ to the image $X$ with a possibly random
+transformation $P_G(X|Z)$ (for simplicity assume deterministic mapping
+$X = G(Z)$), yielding the density:
+
+\[
+  p_G(x) := \int_\mathcal{Z} p_G(x|z) p_Z(z) dz
+\]
+
+<br>
+
+* It turns out that, in this form, the OT cost takes a simpler form, noting
+the $Z$ marginal $Q_Z(Z) := \mathbb{E}_{X \sim P_X} [Q(Z|X)]$:
+
+<center>
+
+![Theorem 1](pictures/11-theorem_1.png)
+
+</center>
+
+<br>
+
+* This allows us to **optimize only over random encoders $Q(Z|X)$ instead of
+optimizing over all couplings $\Gamma$**. This gives the **WAE objective**
+(encoder $Q$ and decoder $G$ are parametrized by deep neural networks):
+
+<center>
+
+![WAE objective](pictures/11-WAE_objective.png)
+
+</center>
+
+<br>
+
+* Two different penalties (regularizations in the latent space, to avoid
+overfitting the reconstruction cost):
+  * **GAN-based** - choose $D_Z(Q_Z, P_Z) = D_{JS}(Q_Z, P_Z)$, and use
+    adversarial training (introduce discriminator in the latent space)
+  - **MMD-based**
