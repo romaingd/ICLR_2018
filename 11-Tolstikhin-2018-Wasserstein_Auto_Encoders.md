@@ -10,6 +10,21 @@
 
 ## Abstract
 
+Motivated by the recent development of unsupervised generative modeling, the
+authors propose a novel family of auto-encoders, named Wasserstein Auto-Ecoders
+(WAE). WAE, leveraging insights from both Variational Auto-Encoders (VAE) and
+Generative Adversarial Networks (GAN), minimizes the Optimal Transport (OT)
+discrepancy (linked to the Wasserstein distance) between the
+true input data distribution and a latent variable model, generating fake
+samples from codes living in the (low-dimensional) latent space.
+
+WAE hence encodes input data into the latent space, and generates data in the
+input space from latent codes. The reconstruction OT cost is regularized by
+matching the encoded distribution of input examples with a prior in the latent
+space, greatly increasing the performance and the quality of samples generated
+when compared to Variational Auto-Encoders. The diversity of allowed costs and
+regularizers yields great promises for future development.
+
 
 
 ---
@@ -174,4 +189,92 @@ optimizing over all couplings $\Gamma$**. This gives the **WAE objective**
 overfitting the reconstruction cost):
   * **GAN-based** - choose $D_Z(Q_Z, P_Z) = D_{JS}(Q_Z, P_Z)$, and use
     adversarial training (introduce discriminator in the latent space)
-  - **MMD-based**
+  - **MMD-based** - choose $D_Z(Q_Z, P_Z) = MMD_k(Q_Z, P_Z)$ the *maximum mean
+    discrepancy* (squared distance between the kernel embeddings of the
+    distributions in a RKHS determined by $k$).
+
+<center>
+
+![WAE algorithms](pictures/11-algorithms.png)
+
+Note that those algorithms allow deterministic encoders $Q(Z|X)$
+
+</center>
+
+<br>
+
+
+
+---
+
+
+
+## III - Related work
+
+### Literature on auto-encoders
+
+* Classical auto-encoders: minimize only the reconstruction cost. But this
+yields holes in $\mathcal{Z}$ where the decoder mapping $P_G(X|Z)$ has never
+been trained (encoded points are scattered all across $\mathcal{Z}$). The
+learned representation is not useful and sampling is very hard.
+
+* VAEs minimize the reconstruction cost plus the regularizer $\mathbb{E}_{P_X}
+[D_{KL}(Q(X|Z), P_Z)]$. The **VAE cost forces the image by the encoder of each
+input sample $Q(X|Z)$ to match the prior $P_Z$**, and requires non-degenerate
+encoders and random decoders (vs. WAE minimizing OT cost, allowing all
+encoder-decoder pairs)
+
+* WAE-GAN directly generalizes Adversarial Auto-Encoders (AAE), providing
+a theoretical justification for AAE.
+
+
+<br>
+
+
+### Literature on OT
+
+* WGAN minimizes $W_1(P_X, P_G)$ for generative modeling, but leveraging
+a neat form of duality that does not hold for all cost functions.
+
+* The computation of Optimal Transport is non-trivially constrained; various
+approaches have been proposed to circumvent the difficulties. In this
+work, OT is relaxed by adding a single extra divergence.
+
+
+<br>
+
+
+### Literature on GANs
+
+* Ulyanov et al. (2017) use the discrepancy between $Q_Z$ and the distribution
+$\mathbb{E}_{Z'\sim P_Z} [Q(Z|G(Z'))]$ of auto-encoded noise vectors, leading to
+a max-min game between the encoder and decoder. The theoretical foundation
+remains unclear.
+
+* Several works used reproducing kernels in the context of GANs, but using
+$MMD_k(P_X, P_G)$ directly in the input space $\mathcal{X}$. However, estimating
+the MMD requires a number of samples roughly equal to the dimensionality of
+the input space (typically larger than $10^3$, hence very large batch size).
+WAE-MMD matches distributions via MMD in the latent space, whose dimension is
+typically 100.
+
+
+
+---
+
+
+
+## IV - Experiments
+
+* We want to achieve (tested on MNIST and CelebA):
+  * **Accurate reconstructions** of input data points (training and test)
+  * **Reasonable geometry of the latent manifold** (training and test)
+  * **Good quality** of random samples
+
+<br>
+
+* Results globally show that **WAE yields samples of much better quality than
+VAE**. WAE-GAN usually leads to a better matching and better samples than
+WAE-MMD, but is highly unstable due to adversarial training (WAE-MMD has a very
+stable training). Reconstructions are reasonable, and the geometry of the
+latent manifold is designed to behave nicely.
