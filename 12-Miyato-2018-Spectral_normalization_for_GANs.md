@@ -147,4 +147,54 @@ spectral norm with very small additional computational time.
 
 ## II.3 - Gradient analysis of the spectrally normalized weights
 
-* The derivation of the gradient (see formula in the paper)
+* The derivation of the gradient (see formula in the paper) shows that the new
+version can be seen as a **regularized** version of the standard one,
+adaptively penalizing the first component of the weight matrix.
+
+* **Spectral normalization prevents each layer from concentrating into one
+particular direction** along the course of the training.
+
+
+
+---
+
+
+
+## III - Spectral normalization vs. other regularization techniques
+
+* **Weight normalization** - normalize the $l_2$ norm of each row in the weight
+matrix (equivalent to Frobenius normalization, which requires the sum of
+squared singular values to be 1). Unfortunately this tends to reduce the rank
+of the weight matrix, i.e. reduce the number of features used in discrimination.
+**Weight clipping** suffers from the same issue (vs. spectral norm is
+independent of the rank).
+
+* **Orthonormal regularization** - add a term $||{W^T W - I||}_F^2$ to the
+adversarial objective. The purpose is the same as spectral normalization, but
+it destroys all information about the spectrum by setting all the singular
+values to 1 (vs. scaling the spectrum to have a maximum value of 1).
+
+* **WGAN + Gradient Penalty** - add a regularizer to the objective that rewards
+the function for having local 1-Lipschitz constant, on interpolated points
+(between target and generated distributions). This is heavily dependent on the
+support of the distributions, hence unstable, and more computationally
+requiring.
+
+
+
+---
+
+
+
+## IV - Experiments
+
+* Evaluate performance and compare against other regularization techniques,
+on CIFAR-10, STL-10 and ImageNet (larger dataset).
+
+
+<br>
+
+
+### IV.1 - Results on CIFAR-10 and STL-10
+
+*
