@@ -40,10 +40,11 @@ covering the entire data distribution) is mostly based on two approaches
   * **Variational Auto-Encoders (VAE)** (encode input data into a latent space,
     use reconstruction as feedback), theoretically elegant, but producing
     blurry samples (on natural images)
-  * **Generative Adversarial Networks (GAN)** (jointly train a generator G and a
-    discriminator D, where D tries to discriminate real from fake data, and G
-    tries to fool D by producing high quality samples; after training, drop D
-    and keep only the generator G), producing impressive samples,
+  * **Generative Adversarial Networks (GAN)** (train a generator $G$ and a
+    discriminator $D$, consecutively with one step for each in turn,
+    where $D$ tries to discriminate real from fake data, and $G$
+    tries to fool $D$ by producing realistic fake data; after training, drop $D$
+    and keep only the generator $G$), producing impressive samples,
     but yielding no encoder, harder to train and suffering from the **mode
     collapse** problem (only one sample or one very small family of samples can
     be sampled, missing coverage of the true distribution)
