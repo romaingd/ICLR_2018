@@ -10,6 +10,19 @@
 
 ## Abstract
 
+Both the availability of large source code repositories and the recent successes
+of deep learning encourage the use of such powerful models to develop tools
+designed to support software engineers on large scale projects. Driven by recent
+progress made on the adaptation of neural networks to graph-structured input,
+the authors propose here the representation of a program as a graph, with
+terminals and non-terminals as nodes and both syntactic, semantic and data flow
+related relationships as edges between those nodes. This enables the use of
+a neural message passing algorithm (Gated Graph Neural Network)
+to reason on those programs, and tackle two challenging tasks in machine
+learning applied to source code - the prediction of a variable's name, and the
+prediction of the correct variable to use at a given slot of a code file.
+Experiments show promising results in this yet to be explored line of work.
+
 
 
 ---
