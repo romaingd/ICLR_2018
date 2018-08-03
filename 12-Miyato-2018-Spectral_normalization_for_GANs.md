@@ -1,4 +1,4 @@
-# Spectral normalization for $G$enerative Adversarial Networks
+# Spectral normalization for Generative Adversarial Networks
 
 ## T. Miyato, T. Kataoka, M. Koyama, Y. Yoshida
 
