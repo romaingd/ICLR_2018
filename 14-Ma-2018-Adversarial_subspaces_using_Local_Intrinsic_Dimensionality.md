@@ -150,7 +150,7 @@ Dimensionality** is defined as:
 
 <br>
 
-* The LID gives a rough indication of the dimension o the sub-manifold
+* The LID gives a rough indication of the dimension of the sub-manifold
 containing $x$ that would best fit the data distribution in the vicinity of $x$.
 
 
@@ -177,7 +177,56 @@ the estimation of LID *via* the Maximum Likelihood Estimator:
 #### LID of adversarial subspaces
 
 * Consider a sample $x \in X$ (set of normal examples) lying within a data
-sub-manifold $S$, and a new sample $x'$ resulting from an adversarial
-perturbation of $x$.
+sub-manifold $S$, and a **new sample $x'$ resulting from an adversarial
+perturbation of $x$**.
 
-* The LID of $x$ is simply the the local dimension of $S$. However, 
+* The theoretical LID of $x$ is simply the the local dimension of $S$.
+Similarly, if we could compute the theoretical LID of $x'$ (with respect to
+the full adversarial region, not to the true data manifolds), it would be the
+(local) dimension of the corresponding adversarial region. Recent work shows
+that such regions span contiguous subspaces whose dimension is comparable to
+the *representational dimension*, i.e. the dimension of the full data domain
+(e.g. 3x128x128), which is much larger than the dimension of any data
+sub-manifold. This means that **the theoretical LID of $x'$ (w.r.t. the
+adversarial region) is far greater than that of $x$ (w.r.t. $S$)**.
+
+<br>
+
+* **We must however estimate the LID from data samples**. Provided that the
+dimension of $S$ is reasonably low, estimation *via* the $k$-nearest neighbors
+of the LID of $x$ is expectedly accurate enough.
+
+* The theoretical LID of $x'$ w.r.t. the adversarial subspace cannot be
+estimated easily with true data only (not enough adversarial examples, most
+likely required number of examples is too high anyway). However, **the nearest
+neighbors of $x'$ are likely drawn from more than one (true data) manifold**;
+despite the proximity to $S$, if all neighbors were drawn from $S$, $x'$ would
+probably not be an adversarial example.
+
+* This means that the neighbors of $x'$ together span a number of data manifolds
+at the same time, yielding a subspace of much higher intrinsic dimensionality
+than any individual subspace. In other words, **the LID of $x'$ with respect to
+the true data samples can be expected to be much higher than that of $x$**.
+
+
+<br>
+
+
+#### Efficiency through minibatch sampling
+
+* Computing the LID with respect to the whole dataset $X$ is generally
+intractable. We expect the estimation to be reasonably accurate when computed
+on a large enough random minibatch of training data, especially if the gap
+between normal and adversarial LID is huge.
+
+* It turns out that, despite the variance of the estimates, a batch size of 100
+and a neighborhood size of 20 seem enough to discriminate between adversarial
+and non-adversarial examples.
+
+
+<br>
+
+
+#### Using LID to characterize adversarial examples
+
+* 
