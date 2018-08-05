@@ -229,4 +229,137 @@ and non-adversarial examples.
 
 #### Using LID to characterize adversarial examples
 
-* 
+<br>
+
+<center>
+
+![LID classifier](pictures/14-LID_classifier.png)
+
+</center>
+
+<br>
+
+* For any new test example, a new random minibatch of training data is used to
+estimate the LID after each layer of the DNN, and those extracted features are
+fed to the classifier previously trained with the algorithm above.
+
+
+
+---
+
+
+
+## V - Evaluating LID-based characterization of adversarial examples
+
+### V.2 - LID characteristics of adversarial examples
+
+<br>
+
+<center>
+
+![LID scores](pictures/14-LID_scores.png)
+
+</center>
+
+<br>
+
+* The various plots support the main previous hypotheses. The LID scores of
+adversarial examples are significantly higher than those of normal or noisy
+examples. LID is quite robust to the parameter choice.
+
+* The plots also show that adversarial discrimination becomes possible at
+dense layers, and much easier at the softmax layer, which thus may be more
+sensitive to adversarial perturbations than convolutional transformations.
+
+
+<br>
+
+
+### V.3 - Analysis of LID properties
+
+#### Performance
+
+<br>
+
+<center>
+
+![AUC results](pictures/14-AUC_results.png)
+
+AUC score of a logistic regression classifier with different features <br>
+trained on different attack types (and tested on the same)
+
+</center>
+
+<br>
+
+
+#### Generalizability
+
+<br>
+
+<center>
+
+![AUC results](pictures/14-generalization.png)
+
+AUC score of a logistic regression classifier with different features <br>
+**trained on FGM attacks and tested on other attack types**
+
+</center>
+
+<br>
+
+
+#### Effect of minibatch size
+
+* The instability of LID estimation at minibatch size of 100 is compensated by
+the discriminator training; however, increasing the batch size seems to
+further improve the detection performance. The trade-off terms need to be
+investigated in future work.
+
+
+<br>
+
+
+#### Adaptive attack against LID measurement
+
+* It is interesting to test the robustness of the LID classifier in the white
+box setting, where the Opt framework has access to the model and crafts
+$L_2$ attacks by minimizing the objective:
+
+\[
+  \min 
+\]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- NOTE The LID relies on the (somewhat strong, but apparently effective)
+assumption that the neighborhood of an adversarial example will span
+multiple sub-manifolds. An additional feature would be to consider how the
+neighborhood relates to the reference point. Take a line (data manifold),
+a point outside the line (adversarial example), and grow a ball around the
+point. The vectors from the reference point to its nearest neighbors
+on the line will probably have pairwise scalar products that are rather
+positive if the point is far enough from the line. On the other hand, for
+any point right on the line, such scalar products would probably be somewhat
+randomly positive or negative -->
