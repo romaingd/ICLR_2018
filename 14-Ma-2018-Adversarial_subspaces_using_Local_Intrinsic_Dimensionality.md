@@ -11,6 +11,23 @@ D. Song, M.E. Houle, J. Bailey </h2>
 
 ## Abstract
 
+Despite their recent and tremendous successes, deep neural networks have proven
+very sensitive to adversarial attacks, i.e. inputs intentionally crafted to be
+misclassified (while being close to correctly classified inputs). This has
+become a major security concern, and while a number of straight defense
+mechanisms have been developed, a satisfying robustness level is yet to be
+reached.
+
+The authors propose here a novel detection method, i.e. a way to discriminate
+adversarial inputs from normal and noisy inputs. It leverages the notion
+of Local Intrinsic Dimensionality (LID), an expansion measurement of
+the local dimension of the manifold within which a reference point lives.
+This work shows that adversarial inputs tend to have a much higher LID than
+normal inputs (their neighborhood is more likely to span several
+true-data manifolds), a key insight that enables the design of a classifier
+to detect adversarial inputs. The excellent performance of the classifier
+on a wide range of attacks reveals a highly promising line of work.
+
 
 
 ---
