@@ -322,15 +322,34 @@ investigated in future work.
 
 #### Adaptive attack against LID measurement
 
-* It is interesting to test the robustness of the LID classifier in the white
-box setting, where the Opt framework has access to the model and crafts
-$L_2$ attacks by minimizing the objective:
+* It is interesting to test the robustness of the LID classifier in the **white
+box setting**, where the Opt framework has access to the model and crafts
+$L_2$ attacks by minimizing the objective (noting $l$ a loss function that
+is minimized when the input is classified to the target class with some given
+level of confidence):
+
+<strong>
 
 \[
-  \min 
+  \min \ {||x - x_{adv}||}_2^2 +
+         \alpha \cdot (l(x_{adv}) + \text{LID}(x_{adv}))
 \]
 
+</strong>
 
+* The results show that integrating the LID score into the white box adversarial
+objective does not make detection much more difficult (whereas KD performance
+is very affected).
+
+<br>
+
+<center>
+
+![Attack failures](pictures/14-attack_failures.png)
+
+Failure rate of an adaptive attack targeting the LID-based detector
+
+</center>
 
 
 
