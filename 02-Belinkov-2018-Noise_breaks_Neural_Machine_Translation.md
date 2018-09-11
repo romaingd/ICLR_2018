@@ -13,7 +13,7 @@ compared to human performance when facing noise. In particular, both
 synthetic and natural noise break NMT and drop their performance.
 
 In particular, random scrambling as in the Cambridge meme sentence
-'Aoccdrnig to a rscheearch...' makes performance fell down to ground level.
+'Aoccdrnig to a rscheearch...' makes performance fall down to ground level.
 This is especially true for models based on character ordering, such as CNNs
 or char2char models, when they are trained on clean datasets.
 
@@ -61,7 +61,7 @@ in the training data.
 
 * It is important to move to **character-based (or other sub-word units) NMT**.
 It helps with out-of-vocabulary words and reduces the computational cost of
-large word embedding matrices.Moreover, such models are able to extract stem and
+large word embedding matrices. Moreover, such models are able to extract stem and
 morphological information to generalize to unseen situations.
 
 * Unfortunately, **training on clean data makes models brittle.** Even small
